@@ -9,8 +9,7 @@ import { convertToBanglaNumber } from './EngToBnAndOther';
 
 export default function CategoryClient({ id, products }: { id: string, products: IMarqueeProducts[] }) {
     const { categories } = useContext(bazarContext);
-    const currentCategory = categories.find(f => f.slug === id)
-    console.log(products);
+    const currentCategory = categories.find(f => f.slug === id);
     
 
     return (

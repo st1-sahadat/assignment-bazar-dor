@@ -2,12 +2,12 @@
 
 
 
-export const FatchCategories = "https://api.abcz.workers.dev/api/bazardor/categories";
-export const FatchCategoriesProduct = "https://api.abcz.workers.dev/api/bazardor/products?category=";
+export const FatchCategories = "https://api.api-store.workers.dev/api/bazardor/categories";
+export const FatchCategoriesProduct = "https://api.api-store.workers.dev/api/bazardor/products?category=";
 
 export const AllProductFatch = async ()=> {
     try {
-        const res = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
+        const res = await fetch("https://api.api-store.workers.dev/api/bazardor/products");
         return await res.json();
         
     } catch (error) {
