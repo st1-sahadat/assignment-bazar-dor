@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { FatchCategories } from "../FatchApi/FatchApi";
-
-interface Category {
-    icon: string;
-    id: string;
-    nameBn: string;
-    slug: string;
-}
-
+import { Category } from "@/app/type/Type";
+import { bazarContext } from "@/app/context/bazarContext";
 const NavCategories = () => {
 
-    const [categories, setCategories] = useState<Category[]>([]);
+    const {categories, setCategories} = useContext(bazarContext);
 
 
     useEffect(() => {
@@ -26,7 +20,7 @@ const NavCategories = () => {
             {categories.map((c: Category) => (
                 <li key={c.id}>
                     <Link
-                        href={`/category/${c.id}`}
+                        href={`/category/${c?.slug }`}
                         className="text-sm font-medium text-gray-700 hover:text-green-700"
                     >
                         {c.nameBn}

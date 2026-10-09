@@ -3,6 +3,7 @@
 
 
 export const FatchCategories = "https://api.abcz.workers.dev/api/bazardor/categories";
+export const FatchCategoriesProduct = "https://api.abcz.workers.dev/api/bazardor/products?category=";
 
 export const AllProductFatch = async ()=> {
     try {

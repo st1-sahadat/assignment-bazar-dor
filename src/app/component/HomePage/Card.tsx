@@ -3,7 +3,7 @@ import { convertToBanglaNumber, formatUnit, upDownIcon } from '../Others/EngToBn
 
 const CardPage = ({ item }: { item: IMarqueeProducts }) => {
     return (
-        <div  className="group flex items-stretch justify-center">
+        <div className="group flex items-stretch justify-center">
             <div className="w-full rounded-2xl border border-orange-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-orange-200 sm:p-5">
                 <div className="flex items-start gap-3 sm:gap-4">
                     <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-100 to-red-100 text-2xl shadow-inner sm:h-16 sm:w-16">

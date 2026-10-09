@@ -1,4 +1,12 @@
+// Categories type
+export interface Category {
+    icon: string;
+    id: string;
+    nameBn: string;
+    slug: string;
+}
 
+// Products type
 export interface IMarqueeProducts {
     id?: string | number;
     nameBn: string;
