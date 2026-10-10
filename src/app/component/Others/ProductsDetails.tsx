@@ -4,16 +4,16 @@ import { IMarqueeProducts } from '@/app/type/Type';
 // import { IMarqueeProducts } from '@/app/type/Type';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { convertToBanglaNumber } from './EngToBnAndOther';
+import { convertToBanglaNumber, formatUnit } from './EngToBnAndOther';
 
 const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProducts }) => {
     const { categories } = useContext(bazarContext);
 
     const currentCategory = categories.find(category => category.slug === products?.category);
-    console.log(currentCategory);
 
-
-    console.log();
+    const cheapest = (products.markets ?? []).reduce((acc, cur) => (cur.min < acc.min ? cur : acc));
+    const priciest = (products.markets ?? []).reduce((acc, cur) => (cur.max > acc.max ? cur : acc));
+    const averageProductPrice = (cheapest.min + priciest.max)/2;
 
     return (
         <div>
@@ -43,10 +43,10 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                                     {products.nameBn}
                                 </h1>
                                 <p className="mt-1 text-sm font-medium text-gray-500">
-                                    প্রতি {products.unit === 'kg' ? 'কেজি' : products.unit} - {products.categoryNameBn}
+                                    প্রতি {formatUnit(products.unit)} - {products.categoryNameBn}
                                 </p>
                                 <p className="mt-2 text-sm font-medium text-gray-600">
-                                    {/* গতকালের তুলনায় আজ দাম {isIncreased ? 'বেড়েছে' : 'কমেছে'} - {toBn(Math.abs(priceDiff))} টাকা */}
+                                    গতকালের তুলনায় আজ দাম {products?.change?.dir === "up" ? 'বেড়েছে' : 'কমেছে'} -{convertToBanglaNumber(products.today - products.yesterday)} টাকা
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                                 {convertToBanglaNumber(products.today)}
                             </span>
                             <span className="text-sm font-medium text-gray-500 mb-2">
-                                টাকা / {products.unit === 'kg' ? 'কেজি' : products.unit}
+                                টাকা / {formatUnit(products.unit)}
                             </span>
 
                             {/* Change Badge */}
@@ -73,28 +73,22 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                     {/* --- 2. Price Summary Cards --- */}
                     <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                         <h2 className="mb-4 text-lg font-bold text-gray-900">দামের সারসংক্ষেপ</h2>
-
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-
                             {/* Lowest Price */}
                             <div className="rounded-xl border border-gray-100 p-4">
                                 <p className="text-sm font-medium text-gray-500 mb-1">সর্বনিম্ন দাম</p>
-                                {/* <p className="text-2xl font-bold text-green-600 mb-1">{formatPrice(lowestMarket.min)} টাকা</p> */}
-                                {/* <p className="text-xs text-gray-500">সবচেয়ে কম দামের বাজার ({lowestMarket.market})</p> */}
+                                <p className="text-2xl font-bold text-green-600 mb-1">{convertToBanglaNumber(cheapest.min)} টাকা</p>
                             </div>
-
                             {/* Highest Price */}
                             <div className="rounded-xl border border-gray-100 p-4">
-                                <p className="text-sm font-medium text-gray-500 mb-1">সর্বাধিক দাম</p>
-                                {/* <p className="text-2xl font-bold text-red-600 mb-1">{formatPrice(highestMarket.max)} টাকা</p> */}
-                                {/* <p className="text-xs text-gray-500">সবচেয়ে বেশি দামের বাজার ({highestMarket.market})</p> */}
+                                <p className="text-sm font-medium text-gray-500 mb-1">সর্বাধিক দাম</p>                                
+                                <p className="text-2xl font-bold text-green-600 mb-1">{convertToBanglaNumber(priciest.max)} টাকা</p>
                             </div>
-
                             {/* Average Price */}
                             <div className="rounded-xl border border-gray-100 p-4">
                                 <p className="text-sm font-medium text-gray-500 mb-1">গড় দাম</p>
-                                {/* <p className="text-2xl font-bold text-green-600 mb-1">{formatPrice(averagePrice)} টাকা</p> */}
-                                <p className="text-xs text-gray-500">প্রতি {products.unit === 'kg' ? 'কেজি' : products.unit}-এর হিসাবে</p>
+                                <p className="text-2xl font-bold text-green-600 mb-1">{convertToBanglaNumber(averageProductPrice.toFixed())} টাকা</p>
+                                <p className="text-xs text-gray-500">প্রতি {formatUnit(products.unit)}-এর হিসাবে</p>
                             </div>
 
                         </div>
@@ -116,15 +110,16 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
-                                    {(products.markets ?? []).map((item, index) => {
-                                        const avgPrice = (item.min + item.max) / 2;
+                                    {(products.markets ?? []).map((market, index) => {
+                                        const avgPrice = (market.min + market.max) / 2;
+
                                         return (
                                             <tr key={index} className="text-gray-900">
-                                                <td className="py-3 font-medium">{item.market}</td>
-                                                <td className="py-3 text-gray-600">{item.division}</td>
-                                                <td className="py-3">{convertToBanglaNumber(item.min)} টাকা</td>
-                                                <td className="py-3">{convertToBanglaNumber(item.max)} টাকা</td>
-                                                {/* <td className="py-3 text-right font-medium">{formatPrice(avgPrice)} টাকা</td> */}
+                                                <td className="py-3 font-medium">{market.market}</td>
+                                                <td className="py-3 text-gray-600">{market.division}</td>
+                                                <td className="py-3">{convertToBanglaNumber(market.min)} টাকা</td>
+                                                <td className="py-3">{convertToBanglaNumber(market.max)} টাকা</td>
+                                                <td className="py-3 text-right font-medium">{convertToBanglaNumber(avgPrice)} টাকা</td>
                                             </tr>
                                         );
                                     })}

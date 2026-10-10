@@ -5,7 +5,6 @@ import NavCategories from './NavCategories';
 import Link from 'next/link';
 import { bazarContext } from '@/app/context/bazarContext';
 import BanglaDate from '../Others/Date';
-import Marquee from '../HomePage/Marquee';
 
 const Navbar = () => {
     const { activeTab, setActiveTab } = useContext(bazarContext);
@@ -40,20 +39,24 @@ const Navbar = () => {
                 {/* Right Section: Auth Links */}
                 <div className="flex w-full items-center gap-3 sm:w-auto sm:gap-4">
                     {/* Sign In Link */}
+                    <Link href={'../../sign-in'}>
                     <button
                         onClick={() => setActiveTab("sign-in")}
                         className={`flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2 sm:flex-none sm:px-6 sm:py-2.5 sm:text-base 
                 ${activeTab === "sign-in" ? 'bg-green-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 shadow-sm hover:bg-green-700 hover:text-white hover:shadow-md'}`}>
                         সাইন ইন
                     </button>
+                    </Link>
 
                     {/* Sign Up Button */}
+                    <Link href={'../../sign-up'}>
                     <button
                         onClick={() => setActiveTab("sign-up")}
                         className={`flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2 sm:flex-none sm:px-6 sm:py-2.5 sm:text-base 
                 ${activeTab === "sign-up" ? 'bg-green-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 shadow-sm hover:bg-green-700 hover:text-white hover:shadow-md'}`}>
                         সাইন আপ
                     </button>
+                    </Link>
                 </div>
 
 

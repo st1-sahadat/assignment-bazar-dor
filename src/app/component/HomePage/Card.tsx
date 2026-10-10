@@ -3,7 +3,6 @@ import { convertToBanglaNumber, formatUnit, upDownIcon } from '../Others/EngToBn
 import Link from 'next/link';
 
 const CardPage = ({ item }: { item: IMarqueeProducts }) => {
-    console.log(item?.id);
     
     return (
         <>
