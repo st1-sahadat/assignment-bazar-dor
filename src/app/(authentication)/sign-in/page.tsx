@@ -1,10 +1,27 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
 import React, { use } from 'react';
 import { FaGithubSquare } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
 
 const SignInPage = () => {
+    const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const user = Object.fromEntries(formData.entries()) as { name: string, email: string, password: string }
+        const { data, error } = await authClient.signIn.email({
+            ...user
+        })
 
+        if (data) {
+            console.log(data);
+            redirect("/");
+        } else if (error) {
+            console.log(error);
+
+        }
+    }
 
     return (
         <div className="my-14 py-10 flex items-center justify-center bg-green-50 p-4">
@@ -15,9 +32,7 @@ const SignInPage = () => {
                     সাইন ইন
                 </h2>
                 {/* Form Fields */}
-                <form className="space-y-4" 
-                // onSubmit={onSubmit}
-                >
+                <form className="space-y-4" onSubmit={onSubmit}>
 
                     {/* Email Field */}
                     <div>

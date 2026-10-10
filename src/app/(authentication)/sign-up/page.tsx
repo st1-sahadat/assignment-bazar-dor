@@ -1,9 +1,27 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
 import React from 'react';
 import { FaGithubSquare } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
 
 const SignUpPage = () => {
+    const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>)=> {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const user = Object.fromEntries(formData.entries()) as {name: string,email:string,password:string}
+        const {data, error} = await authClient.signUp.email({
+            ...user
+        })
+
+        if(data){
+            console.log(data);   
+            redirect("/");
+        }else if(error){
+            console.log(error);
+            
+        }
+    }
     return (
         <div className="flex my-14 py-10 items-center justify-center bg-linear-to-br from-emerald-50 via-white to-green-50 p-4">
             <div className="w-full max-w-md rounded-2xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-100/70 sm:p-8">
@@ -13,7 +31,7 @@ const SignUpPage = () => {
                 </h2>
 
                 {/* Form Fields */}
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={onSubmit}>
                     {/* Name Field */}
                     <div>
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -25,17 +43,7 @@ const SignUpPage = () => {
                         />
                     </div>
 
-                    {/* Image Field */}
-                    <div>
-                        <label className="mb-2 block text-sm font-semibold text-gray-700">
-                            Image
-                        </label>
-                        <input
-                            type="url" name='image' placeholder='Image'
-                            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
-                        />
-                    </div>
-
+                    
                     {/* Email Field */}
                     <div>
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
