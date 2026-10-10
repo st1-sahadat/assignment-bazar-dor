@@ -4,6 +4,7 @@ import NavCategories from './NavCategories';
 import Link from 'next/link';
 import BanglaDate from '../Others/Date';
 import UserInfo from './UserInfo';
+import { Suspense } from 'react';
 
 const Navbar = () => {
 
@@ -42,7 +43,9 @@ const Navbar = () => {
             </div>
             <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-2 sm:px-6 lg:px-8">
                 <div className="mx-auto w-full max-w-7xl">
-                    <NavCategories />
+                    <Suspense fallback={<div className="h-6 w-64 bg-gray-100 rounded animate-pulse" />}>
+                        <NavCategories />
+                    </Suspense>
                 </div>
             </div>
             <div>
