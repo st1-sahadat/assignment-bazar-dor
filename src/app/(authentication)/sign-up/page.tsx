@@ -1,27 +1,57 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaGithubSquare } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
+import { toast } from 'react-toastify';
 
 const SignUpPage = () => {
-    const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>)=> {
+    const router = useRouter();
+    const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const formData = new FormData(e.target)
-        const user = Object.fromEntries(formData.entries()) as {name: string,email:string,password:string}
-        const {data, error} = await authClient.signUp.email({
-            ...user
+        const formData = new FormData(e.currentTarget)
+        const user = Object.fromEntries(formData.entries()) as { name: string, email: string, password: string }
+        const { data, error } = await authClient.signUp.email({
+            name: user.name,
+            email: user.email,
+            password: user.password,
         })
 
-        if(data){
-            console.log(data);   
-            redirect("/");
-        }else if(error){
-            console.log(error);
-            
+        if (data) {
+            toast('Sign up sucessfull');
+            router.push('/sign-in');
+            router.refresh();
+        } else if (error) {
+            toast.error('Sign up failed');
         }
     }
+
+    // Google sign in
+    const handleGoogleSignIn = async () => {
+        const { data, error } = await authClient.signIn.social({
+            provider: "google",
+        });
+        if (data) {
+            toast.success('Sign-In Successful');
+        } else if (error) {
+            toast.error(error.message ?? 'Sign in failed');
+        }
+    };
+
+    // Github sign in
+    const handleGithubSignIn = async () => {
+        const { data, error } = await authClient.signIn.social({
+            provider: "github",
+        });
+        if (data) {
+            toast.success('Sign-In Successful');
+        } else if (error) {
+            toast.error(error.message ?? 'Sign in failed');
+        }
+    };
+
+
     return (
         <div className="flex my-14 py-10 items-center justify-center bg-linear-to-br from-emerald-50 via-white to-green-50 p-4">
             <div className="w-full max-w-md rounded-2xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-100/70 sm:p-8">
@@ -43,7 +73,7 @@ const SignUpPage = () => {
                         />
                     </div>
 
-                    
+
                     {/* Email Field */}
                     <div>
                         <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -78,7 +108,7 @@ const SignUpPage = () => {
                 {/* Footer Link */}
                 <div className="mt-6 text-center text-sm text-gray-500">
                     <span>আ্যাকাউন্ট আছে? </span>
-                    <a href="#" className="font-semibold text-emerald-700 transition hover:text-emerald-900 hover:underline">
+                    <a href="/sign-in" className="font-semibold text-emerald-700 transition hover:text-emerald-900 hover:underline">
                         সাইন ইন করুন
                     </a>
                 </div>
@@ -86,6 +116,7 @@ const SignUpPage = () => {
                 <div className="mt-6 flex items-center justify-center gap-3">
                     {/* google sign in */}
                     <button
+                        onClick={handleGoogleSignIn}
                         type="button"
                         className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                     >
@@ -94,6 +125,7 @@ const SignUpPage = () => {
                     </button>
                     {/* gihub sign in */}
                     <button
+                        onClick={handleGithubSignIn}
                         type="button"
                         className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                     >

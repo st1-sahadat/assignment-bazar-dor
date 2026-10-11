@@ -1,11 +1,13 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { use } from 'react';
 import { FaGithubSquare } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
+import { toast } from 'react-toastify';
 
 const SignInPage = () => {
+    const router = useRouter();
     const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -15,13 +17,38 @@ const SignInPage = () => {
         })
 
         if (data) {
-            console.log(data);
-            redirect("/");
+            toast.success('Sign-In Successful');
+            router.push('/');
+            router.refresh();
         } else if (error) {
-            console.log(error);
-
+            toast.error(error.message ?? 'Sign in failed');
         }
     }
+    
+    // Google sign in
+    const handleGoogleSignIn = async () => {
+        const { data, error } = await authClient.signIn.social({
+            provider: "google",
+        });
+        if (data) {
+            toast.success('Sign-In Successful');
+        } else if (error) {
+            toast.error(error.message ?? 'Sign in failed');
+        }
+    };
+    
+    // Github sign in
+    const handleGithubSignIn = async () => {
+        const { data, error } = await authClient.signIn.social({
+            provider: "github",
+        });
+        if (data) {
+            toast.success('Sign-In Successful');
+        } else if (error) {
+            toast.error(error.message ?? 'Sign in failed');
+        }
+    };
+
 
     return (
         <div className="my-14 py-10 flex items-center justify-center bg-green-50 p-4">
@@ -68,7 +95,7 @@ const SignInPage = () => {
                 {/* Footer Link */}
                 <div className="mt-6 text-center text-sm text-gray-600">
                     <span>আ্যাকাউন্ট নেই? </span>
-                    <a href="#" className="font-medium text-green-700 hover:underline">
+                    <a href="/sign-up" className="font-medium text-green-700 hover:underline">
                         সাইন আপ করুন
                     </a>
                 </div>
@@ -76,7 +103,7 @@ const SignInPage = () => {
                 <div className="mt-6 flex items-center justify-center gap-3">
                     {/* google sign in */}
                     <button
-                        // onClick={handleGoogleSignIn}
+                        onClick={handleGoogleSignIn}
                         type="button"
                         className="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition hover:border-green-500 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500/20"
                     >
@@ -85,7 +112,7 @@ const SignInPage = () => {
                     </button>
                     {/* gihub sign in */}
                     <button
-                        // onClick={handleGithubSignIn}
+                        onClick={handleGithubSignIn}
                         type="button"
                         className="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition hover:border-green-500 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500/20"
                     >

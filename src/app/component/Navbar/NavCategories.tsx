@@ -29,8 +29,8 @@ const NavCategories = () => {
                             href={`/category/${c.slug}`}
                             className={
                                 isActive
-                                    ? "text-sm font-bold text-green-700 border-b-2 border-green-700"
-                                    : "text-sm font-medium text-gray-700 hover:text-green-700"
+                                    ? "text-sm font-bold text-white bg-green-700 px-3 py-1.5 rounded-md transition-colors"
+                                    : "text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-100 px-3 py-1.5 rounded-md transition-colors"
                             }
                         >
                             {c.nameBn}

@@ -5,15 +5,17 @@ import { IMarqueeProducts } from '@/app/type/Type';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { convertToBanglaNumber, formatUnit } from './EngToBnAndOther';
+import { notFound } from 'next/navigation';
 
 const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProducts }) => {
     const { categories } = useContext(bazarContext);
-
+    
     const currentCategory = categories.find(category => category.slug === products?.category);
 
     const cheapest = (products.markets ?? []).reduce((acc, cur) => (cur.min < acc.min ? cur : acc));
     const priciest = (products.markets ?? []).reduce((acc, cur) => (cur.max > acc.max ? cur : acc));
-    const averageProductPrice = (cheapest.min + priciest.max)/2;
+    const averageProductPrice = (cheapest.min + priciest.max) / 2;
+
 
     return (
         <div>
@@ -81,7 +83,7 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                             </div>
                             {/* Highest Price */}
                             <div className="rounded-xl border border-gray-100 p-4">
-                                <p className="text-sm font-medium text-gray-500 mb-1">সর্বাধিক দাম</p>                                
+                                <p className="text-sm font-medium text-gray-500 mb-1">সর্বাধিক দাম</p>
                                 <p className="text-2xl font-bold text-green-600 mb-1">{convertToBanglaNumber(priciest.max)} টাকা</p>
                             </div>
                             {/* Average Price */}
@@ -119,7 +121,7 @@ const ProductsDetails = ({ id, products }: { id: string, products: IMarqueeProdu
                                                 <td className="py-3 text-gray-600">{market.division}</td>
                                                 <td className="py-3">{convertToBanglaNumber(market.min)} টাকা</td>
                                                 <td className="py-3">{convertToBanglaNumber(market.max)} টাকা</td>
-                                                <td className="py-3 text-right font-medium">{convertToBanglaNumber(avgPrice)} টাকা</td>
+                                                <td className="py-3 text-right font-medium">{convertToBanglaNumber(avgPrice.toFixed())} টাকা</td>
                                             </tr>
                                         );
                                     })}

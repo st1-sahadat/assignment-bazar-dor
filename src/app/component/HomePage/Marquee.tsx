@@ -16,17 +16,17 @@ const Marquee = async () => {
             <div className="flex items-center gap-2">
                 <span className="whitespace-nowrap font-bold text-sm">পণ্য দেখুন :</span>
                 <MarqueeText direction="right" duration={10} className="py-2">
-                    {allProductsData.map((m) => (
+                    {allProductsData.map((item) => (
                         <div
-                            key={m.id}
+                            key={item.id}
                             className="mr-11 inline-flex items-center text-sm font-medium transition-colors hover:text-blue-600"
                         >
-                            <Link href={"/"} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                                {m.categoryIcon}{" "}
-                                {m.nameBn}{" "}
-                                {convertToBanglaNumber(m.today)}{" "}{"টাকা/কেজি"}{" "}
-                                {upDownIcon(m.change)}
-                                {m.change ? convertToBanglaNumber(m.change.pct ?? 0) : ""}
+                            <Link href={`/product-details/${item.id}`} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                {item.categoryIcon}{" "}
+                                {item.nameBn}{" "}
+                                {convertToBanglaNumber(item.today)}{" "}{"টাকা/কেজি"}{" "}
+                                {upDownIcon(item.change)}
+                                {item.change ? convertToBanglaNumber(item.change.pct ?? 0) : ""}
                             </Link>
                         </div>
                     ))}

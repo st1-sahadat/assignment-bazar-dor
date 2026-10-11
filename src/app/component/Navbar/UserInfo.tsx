@@ -24,7 +24,7 @@ const UserInfo = () => {
                         {/* profile pic */}
                         <Link href={"/profile"} className="flex items-center gap-3 rounded-full transition-colors hover:bg-green-50">
                             <div className="avatar h-10 w-10 overflow-hidden rounded-full ring-2 ring-green-100">
-                                {/* <div className="h-full w-full">
+                                <div className="h-full w-full">
                                     <Image
                                         src={user?.image as string}
                                         alt={user?.name ?? 'User avatar'}
@@ -32,7 +32,7 @@ const UserInfo = () => {
                                         width={40}
                                         className="h-full w-full rounded-full object-cover"
                                     />
-                                </div> */}
+                                </div>
                             </div>
                             <h2 className="text-sm font-semibold tracking-wide text-green-800">{user.name.toUpperCase()}</h2>
                         </Link>

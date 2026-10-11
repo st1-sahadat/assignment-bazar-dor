@@ -1,7 +1,8 @@
 
 
-export const apiMainPart = "https://api.abcz.workers.dev"
-// export const apiMainPart = "https://api.api-store.workers.dev/"
+// export const apiMainPart = "https://api.abcz.workers.dev"
+// export const apiMainPart = "https://api.api-store.workers.dev"
+export const apiMainPart = "https://openapi.programming-hero.com"
 
 export const FatchCategories = `${apiMainPart}/api/bazardor/categories`;
 export const FatchCategoriesProduct = `${apiMainPart}/api/bazardor/products?category=`;

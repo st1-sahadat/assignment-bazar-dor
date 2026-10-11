@@ -6,6 +6,7 @@ const CardPage = ({ item }: { item: IMarqueeProducts }) => {
     
     return (
         <>
+        {/* click to product details page */}
         <Link href={`/product-details/${item.id}`}>
         <div  className="group flex items-stretch justify-center">
             <div className="w-full rounded-2xl border border-orange-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-orange-200 sm:p-5">
@@ -39,9 +40,12 @@ const CardPage = ({ item }: { item: IMarqueeProducts }) => {
 
                     <div
                         className={`flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-bold shadow-sm ring-1 sm:text-sm 
-                            ${item.change?.dir === 'down'
+                            ${
+                                item.change?.dir === 'down'
                                 ? 'bg-green-50 text-green-700 ring-green-100'
-                                : 'bg-red-50 text-red-700 ring-red-100'
+                                : item.change?.dir === 'up'
+                                ? 'bg-red-50 text-red-700 ring-red-100'
+                                : 'bg-gray-50 text-gray-700 ring-gray-100'
                             }`}
                     >
                         <span className="text-sm">{upDownIcon(item.change)}</span>

@@ -6,11 +6,16 @@ import { bazarContext } from '@/app/context/bazarContext';
 import { IMarqueeProducts } from '@/app/type/Type';
 import CardPage from '../HomePage/Card';
 import { convertToBanglaNumber } from './EngToBnAndOther';
+import { notFound } from 'next/navigation';
 
 export default function CategoryClient({ id, products }: { id: string, products: IMarqueeProducts[] }) {
     const { categories } = useContext(bazarContext);
     const currentCategory = categories.find(f => f.slug === id);
+    if(!currentCategory){
+        notFound()
+    }
     
+
 
     return (
         <div className="w-full pb-4">
@@ -75,3 +80,6 @@ export default function CategoryClient({ id, products }: { id: string, products:
         </div>
     );
 }
+
+
+
