@@ -1,5 +1,5 @@
 import { IMarqueeProducts } from '@/app/type/Type';
-import { convertToBanglaNumber, formatUnit, upDownIcon } from '../Others/EngToBnAndOther';
+import { convertToBanglaNumber, formatUnit, upDownIcon } from './Others/EngToBnAndOther';
 import Link from 'next/link';
 
 const CardPage = ({ item }: { item: IMarqueeProducts }) => {

@@ -3,7 +3,7 @@ import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
 import { AllProductFatch } from "../FatchApi/FatchApi";
 import { IMarqueeProducts } from "../../type/Type";
-import { convertToBanglaNumber, upDownIcon } from "../Others/EngToBnAndOther";
+import { convertToBanglaNumber, upDownIcon } from "./Others/EngToBnAndOther";
 
 
 

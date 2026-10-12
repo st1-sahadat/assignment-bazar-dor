@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext, useEffect } from "react";
-import { bazarContext } from "../../context/bazarContext";
+import { bazarContext } from "../../../context/bazarContext";
 
 export default function BanglaDate() {
     const { banglaDate, setBanglaDate } = useContext(bazarContext);

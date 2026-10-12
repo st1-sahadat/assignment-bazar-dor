@@ -1,33 +1,63 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
-import React from 'react';
+import React, { useState } from 'react';
 
 const ProfilePage = () => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
+    const [isEditing, setIsEditing] = useState(false);
 
-    const handleUpdateProfile = async (e: React.SubmitEvent<HTMLElement>) => {
+    const handleUpdateValue = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const formData = new FormData(e.target);
+        const formData = new FormData(e.currentTarget);
         const userUpdate = Object.fromEntries(formData.entries()) as { name: string, image: string }
 
         await authClient.updateUser({
             ...userUpdate
         })
+        setIsEditing(false);
+    }
+    // Update profile tigger button
+    const handleUpdateProfile = () => {
+        setIsEditing(true);
+    }
+    // Sign out tigger button
+    const handleSignOut = async () => {
+        setIsEditing(false);
+        await authClient.signOut();
     }
 
 
     
     return (
         <div className="min-h-screen bg-slate-50 px-4 py-12 text-slate-800">
-            <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
-                <h1 className="text-2xl font-bold text-slate-900">{user?.name}</h1>
-                <p className="mt-2 text-slate-600">{user?.email}</p>
-                <p className="mt-1 break-all text-sm text-slate-400">{user?.id}</p>
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md sm:p-6 mx-auto flex w-full max-w-2xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className=" flex-1 ">
+                    <h1 className="wrap-break-word text-xl font-bold text-slate-900 sm:text-2xl">{user?.name}</h1>
+                    <p className="mt-2 wrap-break-word text-sm text-slate-600 sm:text-base">{user?.email}</p>
+                    <p className="mt-1 break-all text-xs text-slate-400 sm:text-sm">{user?.id}</p>
+                </div>
+                {/* Update Profile button */}
+                <div className= {`${isEditing ? 'hidden' : ''} flex shrink-0`}>
+                    <button className="w-full rounded-lg bg-green-700 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto"
+                            onClick={handleUpdateProfile}>
+                        Update Profile
+                    </button>
+                </div>
+                {/* Sign Out button */}
+                <div className= {`${isEditing ? '' : 'hidden'} flex shrink-0`}>
+                    <button className="w-full rounded-lg bg-green-700 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto"
+                            onClick={handleSignOut}
+                            >
+                        Sign Out
+                    </button>
+                </div>
             </div>
-            <div className="mx-auto mt-8 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-8">
+
+            {/* form field */}
+            <div className={`${isEditing ? ' ' : 'hidden'} mx-auto mt-8 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-8`}>
                 <form className="w-full space-y-4"
-                    onSubmit={handleUpdateProfile}
+                    onSubmit={handleUpdateValue}
                 >
                     {/* Name Field */}
                     <div>
@@ -39,9 +69,6 @@ const ProfilePage = () => {
                             className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2.5 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-100"
                         />
                     </div>
-
-                   
-
                     {/* Submit Button */}
                     <button
                         type="submit"

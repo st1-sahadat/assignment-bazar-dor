@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import React from 'react';
-import BanglaDate from '../Others/Date';
+import BanglaDate from './Others/Date';
 
 const Banner = () => {
     // Scroll down all product

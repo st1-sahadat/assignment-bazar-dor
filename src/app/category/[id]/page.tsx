@@ -1,5 +1,5 @@
 import { FatchCategoriesProduct } from '@/app/component/FatchApi/FatchApi';
-import CategoryClient from '@/app/component/Others/CategoryClient';
+import CategoryClient from '@/app/component/HomePage/Others/CategoryClient';
 import { Suspense } from 'react';
 
 export default function CategoryProduct({ params }: { params: Promise<{ id: string }> }) {

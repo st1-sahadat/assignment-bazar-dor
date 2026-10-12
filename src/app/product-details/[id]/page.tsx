@@ -1,5 +1,5 @@
 import { apiMainPart } from '@/app/component/FatchApi/FatchApi';
-import ProductsDetails from '@/app/component/Others/ProductsDetails';
+import ProductsDetails from '@/app/component/HomePage/Others/ProductsDetails';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 

@@ -6,6 +6,10 @@ export interface Category {
     slug: string;
 }
 
+
+
+
+
 // Products type
 // 1. Define the Market type separately for cleaner code
 export interface IMarket {
@@ -14,13 +18,11 @@ export interface IMarket {
   min: number;
   max: number;
 }
-
 // 2. Define the Change type
 export interface IChange {
   dir: "up" | "down" | "flat" | string;
   pct: number;
 }
-
 // 3. The corrected Product type
 export interface IMarqueeProducts {
   id: string | number;

@@ -3,13 +3,32 @@ import { bazarContext } from '@/app/context/bazarContext';
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 const UserInfo = () => {
     const { activeTab, setActiveTab } = useContext(bazarContext);
     const { data: session } = authClient.useSession();
     const user = session?.user;
     const [showSignOut, setShowSignOut] = useState(false);
+
+    // 👇 ref for the dropdown wrapper
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // 👇 close on outside click
+    useEffect(() => {
+        if (!showSignOut) return;
+
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setShowSignOut(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showSignOut]);
 
     const handleSignOut = async () => {
         setShowSignOut(false);
@@ -37,7 +56,7 @@ const UserInfo = () => {
                             <h2 className="text-sm font-semibold tracking-wide text-green-800">{user.name.toUpperCase()}</h2>
                         </Link>
 
-                        <div className="relative">
+                        <div className="relative" ref={menuRef}>
                             <button
                                 type="button"
                                 onClick={() => setShowSignOut((prev) => !prev)}
@@ -61,8 +80,8 @@ const UserInfo = () => {
                                         onClick={() => setShowSignOut(false)}
                                     >
                                         <span className="flex w-full items-center justify-between gap-3.5">
-                                        <span>{user.name.toLowerCase()}</span>
-                                        <span>Profile</span>
+                                            <span>{user.name.toLowerCase()}</span>
+                                            <span>Profile</span>
                                         </span>
                                     </Link>
                                     <button

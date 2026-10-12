@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import NavCategories from './NavCategories';
 import Link from 'next/link';
-import BanglaDate from '../Others/Date';
+import BanglaDate from '../HomePage/Others/Date';
 import UserInfo from './UserInfo';
 import { Suspense } from 'react';
 
