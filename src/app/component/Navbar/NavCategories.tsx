@@ -19,26 +19,28 @@ const NavCategories = () => {
     }, [setCategories]);
 
     return (
-        <ul className="flex items-center gap-4">
-            {categories.map((c: Category) => {
-                const isActive = pathname === `/category/${c.slug}`;  
+        <div className="w-full overflow-x-auto">
+            <ul className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-4">
+                {categories.map((c: Category) => {
+                    const isActive = pathname === `/category/${c.slug}`;
 
-                return (
-                    <li key={c.id}>
-                        <Link
-                            href={`/category/${c.slug}`}
-                            className={
-                                isActive
-                                    ? "text-sm font-bold text-white bg-green-700 px-3 py-1.5 rounded-md transition-colors"
-                                    : "text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-100 px-3 py-1.5 rounded-md transition-colors"
-                            }
-                        >
-                            {c.nameBn}
-                        </Link>
-                    </li>
-                );
-            })}
-        </ul>
+                    return (
+                        <li key={c.id} className="shrink-0">
+                            <Link
+                                href={`/category/${c.slug}`}
+                                className={
+                                    isActive
+                                        ? "text-xs sm:text-sm font-bold text-white bg-green-700 px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-md transition-colors"
+                                        : "text-xs sm:text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-100 px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-md transition-colors"
+                                }
+                            >
+                                {c.nameBn}
+                            </Link>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
     );
 };
 
