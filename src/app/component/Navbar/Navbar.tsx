@@ -4,14 +4,15 @@ import NavCategories from './NavCategories';
 import Link from 'next/link';
 import BanglaDate from '../HomePage/Others/Date';
 import UserInfo from './UserInfo';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 
 const Navbar = () => {
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur">
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+            <div className="relative flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                 {/* Left Section: Logo and Brand Info */}
                 <Link href={"/"}   >
                     <div className="flex min-w-0 items-center gap-3">
@@ -35,12 +36,33 @@ const Navbar = () => {
                     </div>
                 </Link>
 
-                {/* Right Section: Auth Links */}
-                <UserInfo />
+                {/* UserInfo - desktop only */}
+                <div className="hidden sm:block">
+                    <UserInfo />
+                </div>
 
-
-
+                
+                {/* Hamburger button (mobile only) */}
+                <div className="absolute right-4 top-4 sm:hidden">
+                    <button
+                        type="button"
+                        aria-label="Open menu"
+                        aria-expanded={isMenuOpen}
+                        onClick={() => setIsMenuOpen((prev) => !prev)}
+                        className="rounded-lg p-2 text-2xl leading-none text-gray-700 hover:bg-gray-100"
+                    >
+                        <span aria-hidden="true">{isMenuOpen ? '✕' : '≡'}</span>
+                    </button>
+                </div>
+                
+                {/* UserInfo - mobile dropdown (toggled by hamburger) */}
+                {isMenuOpen && (
+                    <div className="absolute left-0 right-0 top-full border-t border-gray-100 bg-white px-4 pt-3 sm:hidden">
+                        <UserInfo />
+                    </div>
+                )}
             </div>
+
             <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-2 sm:px-6 lg:px-8">
                 <div className="mx-auto w-full max-w-7xl">
                     <Suspense fallback={<div className="h-6 w-64 bg-gray-100 rounded animate-pulse" />}>

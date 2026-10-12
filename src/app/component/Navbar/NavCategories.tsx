@@ -19,7 +19,7 @@ const NavCategories = () => {
     }, [setCategories]);
 
     return (
-        <div className="w-full overflow-x-auto">
+        <div className="">
             <ul className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-4">
                 {categories.map((c: Category) => {
                     const isActive = pathname === `/category/${c.slug}`;
