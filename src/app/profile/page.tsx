@@ -17,10 +17,7 @@ const ProfilePage = () => {
         })
         setIsEditing(false);
     }
-    // Update profile tigger button
-    const handleUpdateProfile = () => {
-        setIsEditing(true);
-    }
+    
     // Sign out tigger button
     const handleSignOut = async () => {
         setIsEditing(false);
@@ -40,7 +37,7 @@ const ProfilePage = () => {
                 {/* Update Profile button */}
                 <div className= {`${isEditing ? 'hidden' : ''} flex shrink-0`}>
                     <button className="w-full rounded-lg bg-green-700 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto"
-                            onClick={handleUpdateProfile}>
+                            onClick={() => setIsEditing(true)}>
                         Update Profile
                     </button>
                 </div>
@@ -55,10 +52,18 @@ const ProfilePage = () => {
             </div>
 
             {/* form field */}
-            <div className={`${isEditing ? ' ' : 'hidden'} mx-auto mt-8 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-8`}>
+            <div className={`${isEditing ? ' ' : 'hidden'} relative mx-auto mt-8 w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-8`}>
                 <form className="w-full space-y-4"
                     onSubmit={handleUpdateValue}
                 >
+                    <div className="absolute right-2 top-1">
+                        <button type="button" 
+                        onClick={() => setIsEditing(false)} 
+                        aria-label="Close profile editor" 
+                        className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <span>✖</span>
+                        </button>
+                    </div>
                     {/* Name Field */}
                     <div>
                         <label className="mb-2 block text-sm font-semibold text-slate-700">
