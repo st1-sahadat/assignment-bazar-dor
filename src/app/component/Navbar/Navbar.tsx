@@ -5,12 +5,23 @@ import Link from 'next/link';
 import BanglaDate from '../HomePage/Others/Date';
 import UserInfo from './UserInfo';
 import { Suspense, useState } from 'react';
+import { authClient } from '@/lib/auth-client';
 
 const Navbar = () => {
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isPending } = authClient.useSession();
 
+
+
+    if (isPending) {
+        return (
+            <div className="flex min-h-16 items-center justify-center" role="status" aria-label="Loading">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-green-600" />
+            </div>
+        )
+    }
     return (
+
         <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur">
             <div className="relative flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                 {/* Left Section: Logo and Brand Info */}
@@ -41,7 +52,7 @@ const Navbar = () => {
                     <UserInfo />
                 </div>
 
-                
+
                 {/* Hamburger button (mobile only) */}
                 <div className="absolute right-4 top-4 sm:hidden">
                     <button
@@ -54,7 +65,7 @@ const Navbar = () => {
                         <span aria-hidden="true">{isMenuOpen ? '✕' : '≡'}</span>
                     </button>
                 </div>
-                
+
                 {/* UserInfo - mobile dropdown (toggled by hamburger) */}
                 {isMenuOpen && (
                     <div className="absolute left-0 right-0 top-full border-t border-gray-100 bg-white px-4 pt-3 sm:hidden">

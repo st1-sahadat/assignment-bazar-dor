@@ -5,6 +5,7 @@ import BazarProvider from "./context/bazarContext";
 import Navbar from "./component/Navbar/Navbar";
 import Footer from "./component/Navbar/Footer";
 import { ToastContainer } from "react-toastify";
+import Cloud from '@gravity-ui/icons/Cloud';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         </BazarProvider>
         <ToastContainer />
+        <Cloud />
       </body>
     </html>
   );

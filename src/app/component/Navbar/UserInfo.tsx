@@ -1,6 +1,7 @@
 'use client'
 import { bazarContext } from '@/app/context/bazarContext';
 import { authClient } from '@/lib/auth-client';
+import { Spinner } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -10,7 +11,6 @@ const UserInfo = () => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
     const [showSignOut, setShowSignOut] = useState(false);
-
     // 👇 ref for the dropdown wrapper
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,6 +34,7 @@ const UserInfo = () => {
         setShowSignOut(false);
         await authClient.signOut();
     }
+    
 
     return (
         <div>

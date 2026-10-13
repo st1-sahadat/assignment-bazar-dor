@@ -1,13 +1,14 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
-import React, { use } from 'react';
-import { FaGithubSquare } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaEye, FaEyeSlash, FaGithubSquare } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
 import { toast } from 'react-toastify';
 
-const SignInPage = () => {
+const SignInPage = () => {    
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
     const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -77,10 +78,20 @@ const SignInPage = () => {
                         <label className="mb-2 block text-sm font-medium text-gray-700">
                             পাসওয়ার্ড
                         </label>
-                        <input
-                            type="password" name='password' placeholder='Password'
-                            className="w-full rounded-md border border-gray-300 bg-white px-4 py-2.5 text-gray-700 outline-none transition focus:border-green-600 focus:ring-1 focus:ring-green-600"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'} name='password' placeholder='Password'
+                                className="w-full rounded-md border border-gray-300 bg-white px-4 py-2.5 pr-11 text-gray-700 outline-none transition focus:border-green-600 focus:ring-1 focus:ring-green-600"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-green-700"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
                     </div>
 
                     {/* Submit Button */}
